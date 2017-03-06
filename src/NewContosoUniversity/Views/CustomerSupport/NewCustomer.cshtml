@@ -1,0 +1,164 @@
+@model NewContosoUniversity.Models.CustomerSupport.ViewModelNewCustomer
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<form asp-action="NewCustomer">
+    <div class="form-horizontal">
+        <h4>Customer Personal Details</h4>
+        <hr />
+        
+        @Html.ValidationSummary()
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <table class="table" border="1">
+            <thead>
+                <tr border="1">
+                    <td>
+                        <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.FirstName)</label>
+                    </td>
+                    <td>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger" />
+                    </td>
+                 </tr>
+                <tr>
+                    <td>
+                        <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.MiddleName)</label>
+                    </td>
+                    <td>
+                        <input asp-for="MiddleName" class="form-control" />
+                        <span asp-validation-for="MiddleName" class="text-danger" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.LastName)</label>
+                    </td>
+                    <td>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.AddressType)</label>
+                    </td>
+                    <td>
+                        <select asp-for="AddressType" asp-items="Html.GetEnumSelectList<NewContosoUniversity.Entity.Enums.EnumAddressType>()"></select>
+                        <span asp-validation-for="AddressType" class="text-danger" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.DoorNo)</label>
+                    </td>
+                    <td>
+                        <input asp-for="DoorNo" class="form-control" />
+                        <span asp-validation-for="DoorNo" class="text-danger" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.Building)</label>
+                    </td>
+                    <td>
+                        <input asp-for="Building" class="form-control" />
+                        <span asp-validation-for="Building" class="text-danger" />
+                    </td>
+                </tr>
+                
+               
+                <tr>
+                    <td>
+                        <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.LandMark)</label>
+                    </td>
+                    <td>
+                        <input asp-for="LandMark" class="form-control" />
+                        <span asp-validation-for="LandMark" class="text-danger" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.Street1)</label>
+                    </td>
+                    <td>
+                        <input asp-for="Street1" class="form-control" />
+                        <span asp-validation-for="Street1" class="text-danger" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.Street2)</label>
+                    </td>
+                    <td>
+                        <input asp-for="Street2" class="form-control" />
+                        <span asp-validation-for="Street2" class="text-danger" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.Locality)</label>
+                    </td>
+                    <td>
+                        <input asp-for="Locality" class="form-control" />
+                        <span asp-validation-for="Locality" class="text-danger" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.City)</label>
+                    </td>
+                    <td>
+                        <input asp-for="City" class="form-control" />
+                        <span asp-validation-for="City" class="text-danger" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.Pincode)</label>
+                    </td>
+                    <td>
+                        <input asp-for="Pincode" class="form-control" />
+                        <span asp-validation-for="Pincode" class="text-danger" />
+                    </td>
+                </tr>
+               
+                <tr>
+                    <td>
+                        <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.OccupationID)</label>
+                    </td>
+                    <td>
+                        <select asp-for="OccupationID" asp-items="Html.GetEnumSelectList<NewContosoUniversity.Entity.Enums.EnumOccupation>()"></select>
+                        <span asp-validation-for="OccupationID" class="text-danger" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.Organisation)</label>
+                    </td>
+                    <td>
+                        <input asp-for="Organisation" class="form-control" />
+                        <span asp-validation-for="Organisation" class="text-danger" />
+                    </td>
+                </tr>
+               
+                </thead>
+            </table>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

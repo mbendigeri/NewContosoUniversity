@@ -1,0 +1,148 @@
+@model NewContosoUniversity.Models.CustomerSupport.ViewModelNewCustomerInteraction
+
+@{
+    ViewData["Title"] = "NewCustomerInteraction";
+}
+<!DOCTYPE html>
+
+<html data-ng-app="myApp" class="ng-scope">
+<head>
+    
+</head>
+<body data-ng-controller="appCtrl" class="ng-scope">
+    <div class="col-md-8" border="1">
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                <h3 class="panel-heading">New Interaction</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-4">
+                    <label for="FirstName">@Html.DisplayFor(model => model.Customer.FirstName)</label>
+                </div>
+                <div class="col-md-4">
+                    <label for="MiddleName">@Html.DisplayFor(model => model.Customer.MiddleName)e</label>
+                </div>
+                <div class="col-md-4">
+                    <label for="LastName">@Html.DisplayFor(model => model.Customer.LastName)</label>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-2">
+                    <label for="DoorNo">@Html.DisplayFor(model => model.Customer.DoorNo)</label>
+                </div>
+                <div class="col-md-3">
+                    <label for="Building">@Html.DisplayFor(model => model.Customer.Building)</label>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-3">
+                    <label for="Street1">@Html.DisplayFor(model => model.Customer.Street1)</label>
+                </div>
+                <div class="col-md-3">
+                    <label for="Street2">@Html.DisplayFor(model => model.Customer.Street2)</label>
+                </div>
+                <div class="col-md-3">
+                    <label for="Locality">@Html.DisplayFor(model => model.Customer.Locality)</label>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-3">
+                    <label for="City">@Html.DisplayFor(model => model.Customer.City)</label>
+                </div>
+                <div class="col-md-3">
+                    <label for="PinCode">@Html.DisplayFor(model => model.Customer.Pincode)</label>
+                </div>
+            </div>
+
+            @Html.ValidationSummary()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title">Contact Detail</h3>
+                </div>
+                <form asp-action="NewContact" role="form" class="form-inline">
+                <div class="form-group">
+                    <table class="panel-table" border="0">
+                        <tr>
+
+                            <td>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" id="ContactPerson" placeholder="@Html.DisplayNameFor(model => model.Contact.ContactPerson)">
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="col-md-3">
+                                    <input type="email" class="form-control" id="Email" placeholder="@Html.DisplayNameFor(model => model.Contact.Email)">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <table border="0">
+                        <tr>
+                            <td>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" id="PhoneNumber" placeholder="@Html.DisplayNameFor(model => model.Contact.PhoneNumber)">
+                                </div>
+
+                            </td>
+
+                            <td>
+                                <div class="col-md-3">
+                                    <span>@Html.DisplayNameFor(model => model.Contact.PrimaryPhone)</span>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="me-select">
+                                        <input id="PrimaryPhone" name="PrimaryPhone" type="checkbox"><label></label>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td>
+                                <div class="col-md-3">
+                                    <span>@Html.DisplayNameFor(model => model.Contact.EmergencyPhone)</span>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="me-select">
+                                        <input id="EmergencyPhone" name="EmergencyPhone" type="checkbox"><label></label>
+                                    </div>
+                                </div>
+                            </td>
+
+                        </tr>
+                    </table>
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" id="Relationship" placeholder="@Html.DisplayNameFor(model => model.Contact.RelationShip)">
+                                </div>
+
+                            </td>
+                            <td>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" id="WebsiteURL" placeholder="@Html.DisplayNameFor(model => model.Contact.WebsiteURL)">
+
+                                </div>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                </div>
+                </form>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div><!--/panel-body-->
+        </div>
+    </div>
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+
+
+</body>
+</html>
+
+

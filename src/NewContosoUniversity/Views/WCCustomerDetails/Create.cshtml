@@ -1,0 +1,114 @@
+@model NewContosoUniversity.Entity.WCCustomerDetails
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <h4>WCCustomerDetails</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="AddressTypeID" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <!--<select asp-for="AddressTypeID" class="form-control"></select>-->
+                <select asp-for="AddressTypeID" asp-items="Html.GetEnumSelectList<NewContosoUniversity.Entity.Enums.EnumAddressType>()"></select>
+                <span asp-validation-for="AddressTypeID" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="City" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="FirstName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="LandMark" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="LandMark" class="form-control" />
+                <span asp-validation-for="LandMark" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="LastName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Locality" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Locality" class="form-control" />
+                <span asp-validation-for="Locality" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="MiddleName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="MiddleName" class="form-control" />
+                <span asp-validation-for="MiddleName" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="OccupationID" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <!--<select asp-for="OccupationID" class="form-control"></select>-->
+                <select asp-for="OccupationID" asp-items="Html.GetEnumSelectList<NewContosoUniversity.Entity.Enums.EnumOccupation>()"></select>
+                <span asp-validation-for="OccupationID" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Organisation" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Organisation" class="form-control" />
+                <span asp-validation-for="Organisation" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Pincode" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Pincode" class="form-control" />
+                <span asp-validation-for="Pincode" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Street1" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Street1" class="form-control" />
+                <span asp-validation-for="Street1" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Street2" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Street2" class="form-control" />
+                <span asp-validation-for="Street2" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
