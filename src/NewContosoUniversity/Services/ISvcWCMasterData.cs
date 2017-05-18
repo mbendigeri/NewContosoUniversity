@@ -21,8 +21,10 @@ namespace NewContosoUniversity.Services
 
         Task<WCCommunicationChannelType> Add(WCCommunicationChannelType CommunicationChannel);
         Task<IEnumerable<WCCommunicationChannelType>> GetAllCommunicationTypes();
-
+        Task<IEnumerable<WCInteractionType>> GetAllInteractionTypes();
+        
         Task<IEnumerable<WCStaffDetails>> GetAllTutorStaff(string searchString);
+        Task<IEnumerable<WCFaceToFaceMeeting>> GetAllAvailableF2FMeeting(int staffID);
 
     }
 }

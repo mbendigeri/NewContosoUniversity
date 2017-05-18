@@ -6,9 +6,12 @@
     <h1 class="well">New Interaction details</h1>
 
     <div class="row">
+
         <form asp-action="NewCustomerInteraction">
             @Html.HiddenFor(m => m.Customer.CustomerID, new { value = Model.Customer.CustomerID })
-
+            @Html.HiddenFor(m => m.Contact.ContactID, new { value = Model.Contact.ContactID })
+            <input type='hidden' asp-for="Contact.ContactID" class="form-control" />
+            <input type='hidden' asp-for="Customer.CustomerID" class="form-control" />
             <div class="row">
                 <div class="col-sm-12">
                     <span class="form-horizontal">
@@ -56,55 +59,150 @@
                     </span>
                 </div>
             </div>
-                    <!-- foreach (var course in Model.AvailableCourses) int i = 0;-->
-                    @{int cells = 4;}
-                    @for(int i=0;i<Model.AvailableCourses.Count;i++)
-                    {
+            <!-- foreach (var course in Model.AvailableCourses) int i = 0;-->
+            @{int cells = 4;
+                int count = Model.AvailableCourses.Count;
+            }
+            @for (int i = 0; i < Model.AvailableCourses.Count; i++)
+            {
+                if ((i % cells) == 0)
+                {
+                    @:<div class="row">
+                }
+                <div class="col-sm-3 form-group">
+                    <label for="@Model.AvailableCourses[i].CourseTitle">@Model.AvailableCourses[i].CourseTitle</label>
+                    <div class="checkbox">
 
-                        if ((i % cells) == 0)
-                        {
-                            @:<div class="row">
-                              }
-                        <div class="col-sm-3 form-group">
-                            <label for="@Model.AvailableCourses[i].CourseTitle" >@Model.AvailableCourses[i].CourseTitle</label>
-                            <div class="checkbox">
-                                <label style="font-size:medium">
-                                    @Html.CheckBoxFor(model => model.AvailableCourses[i].Selected)
-                                    <span class="cr"><i class="cr-icon fa fa-check"></i></span>
-                                    
-                                </label>
-                            </div>
+                        <label style="font-size:medium">
+                            @Html.CheckBoxFor(model => model.AvailableCourses[i].Selected)
+                            <span class="cr">
+                                <i class="cr-icon fa fa-check"></i>
+                            </span>
+                        </label>
+                    </div>
+                    @Html.HiddenFor(model => model.AvailableCourses[i].CourseID)
 
-                        </div>
-                        if ((i % cells) == (cells - 1))
-                        {
-                            @:</div>
-                        }
-                        
-                    }
+                </div>
+                if ((i % cells == cells - 1) || (i == count - 1))
+                {
+                    @:</div>
+                }
 
+            }
 
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-8 form-group">
                     <span class="form-horizontal">
-                        <label class="fa-1x">Face to Face Meeting</label>
+                        <label class="fa-1x">Discussion</label>
+                        <textarea class="form-control" asp-for="Discussion" placeholder="discussion" rows="5"></textarea>
                     </span>
                 </div>
-            </div>    
+                <div class="col-sm-4 form-group">
+                    <label style="font-size:medium">Interaction Type</label>
+                    <select class="form-control" asp-for="InteractiontypeID" asp-items="Model.AvailableInteractionTypes"></select>
+                    <label style="font-size:medium">Communication Type</label>
+                    <select class="form-control" asp-for="CommunicationChannelTypeID" asp-items="Model.AvailableCommunicationChannels"></select>
+                </div>
+            </div>
+            <!--- Drop down Calendar code for CallBack starts here-->
+            <div class="row">
+                <div class='col-sm-2'>
+                    <label style="font-size:medium">Call back Start date </label>
+                    <div class="form-group">
+                        <div class='input-group date' id='DTPCallBackStartDate'>
+                            <input type='text' asp-for="CallBackStartDate" class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class='col-sm-2'>
+                    <label style="font-size:medium">Call back Start Time </label>
+                    <div class="form-group">
+                        <div class='input-group date' id='DTPCallBackStartTime'>
+                            <input type='text' asp-for="CallBackStartTime" class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon-time glyphicon"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class='col-sm-2'>
+                    <label style="font-size:medium">Call back End date</label>
+                    <div class="form-group">
+                        <div class='input-group date' id='DTPCallBackEndDate'>
+                            <input type='text' asp-for="CallBackEndDate" class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon-calendar glyphicon"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class='col-sm-2'>
+                    <label style="font-size:medium">Call back End Time </label>
+                    <div class="form-group">
+                        <div class='input-group date' id='DTPCallBackEndTime'>
+                            <input type='text' asp-for="CallBackEndTime" class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon-time glyphicon"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#DTPCallBackStartDate').datetimepicker(
+                            {
+                                format: 'L',
+                                calendarWeeks: true,
+                                showTodayButton: true
+                            });
+                        $('#DTPCallBackStartTime').datetimepicker(
+                            {
+                                format: 'HH:mm'
+                            });
+
+                        $('#DTPCallBackEndDate').datetimepicker({
+                            useCurrent: false, //Important! See issue #1075
+                            format: 'L',
+                            calendarWeeks: true,
+                            showTodayButton: true
+                        });
+
+                        $('#DTPCallBackEndTime').datetimepicker(
+                           {
+                               format: 'HH:mm'
+                           });
+
+                        $("#DTPCallBackStartDate").on("dp.change", function (e) {
+                            $('#DTPCallBackEndDate').data("DateTimePicker").minDate(e.date);
+                        });
+                        $("#DTPCallBackEndDate").on("dp.change", function (e) {
+                            $('#DTPCallBackStartDate').data("DateTimePicker").maxDate(e.date);
+                        });
+                    });
+                </script>
+            </div>
+
+
+            <!--Drop down Calendar Calendar for CallBack ends here-->
+
+
             <div class="row">
                 <div class="col-sm-3 form-group">
                     <label style="font-size:medium">Face to Face with</label>
-                    <select class="form-control" asp-for="SelectedStaffID" asp-items="Model.AvailableTutors"></select>
+                    <select class="form-control" id='SelectedStaffID' asp-for="F2FMeeting.StaffID" asp-items="Model.AvailableTutors"></select>
                 </div>
-                
-                <!--- Calendar code starts here-->
+
+                <!--- Drop down Calendar code starts here-->
                 <div class="container">
                     <div class="row">
-                        <div class='col-sm-3'>
+                        <div class='col-sm-2'>
                             <label style="font-size:medium">Face to Face on</label>
                             <div class="form-group">
-                                <div class='input-group date' id='datetimepicker1'>
-                                    <input type='text' class="form-control" />
+                                <div class='input-group date' id='F2FMeetingDate'>
+                                    <input type='text' asp-for="F2FMeeting.FaceToFaceMeetingDateTime" class="form-control" />
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
@@ -112,19 +210,68 @@
                             </div>
                         </div>
                         <script type="text/javascript">
+
                             $(function () {
-                                $('#datetimepicker1').datetimepicker();
+                                $('#F2FMeetingDate').datetimepicker();
+
+                                $('#F2FMeetingDate').on('changeDate', function (ev) {
+                                    $('#F2FMeetingDate').datepicker('hide');
+                                });
                             });
                         </script>
                     </div>
                 </div>
-                <!--Calendar ends here-->
-                
-            </div>
+                <!--Drop down Calendar Calendar ends here-->
 
-           
-</form>
-        </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <span class="form-horizontal">
+                        <label class="fa-1x">Face to Face Meeting</label>
+                    </span>
+                </div>
+            </div>
+            <!-- Calendar-->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div ng-app="myApp" ng-controller="myNgController">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div id="calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <div ng-show="SelectedEvent" class="alert alert-success" style="margin-top:50px">
+                                    <h2 style="margin-top:0px"> Selected Event:</h2>
+                                    <h3 style="color:#A9A50E">{{SelectedEvent.title}}</h3>
+                                    <p>{{SelectedEvent.description}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="row">
+                <div class='col-sm-2'>
+                    <label style="font-size:medium">Courses</label>
+                    <select class="form-control" asp-for="InterestedCourses" asp-items="Model.AvailableCourses"></select>
+                </div>
+                <div class='col-sm-2'>
+                    <label style="font-size:medium">Courses Schedule</label>
+                    <select class="form-control" asp-for="F2FMeeting.CourseID" asp-items="Model.SelectAvailableSchedules"></select>
+                </div>
+            </div>-->
+            <!-- Calendar-->
+            <!-- Submit button-->
+            <div class="row">
+                <div class="col-sm-12 form-group">
+
+                    <button type="submit" value="NewCustomerInteraction" class="btn btn-lg btn-info">Submit</button>
+                </div>
+            </div>
+            <!-- Submit button-->
+        </form>
+    </div>
+
 </div>
 
 @section Scripts {

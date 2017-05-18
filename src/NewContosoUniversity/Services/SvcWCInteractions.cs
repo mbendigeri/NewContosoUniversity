@@ -17,6 +17,7 @@ namespace NewContosoUniversity.Services
         }
         public async Task<WCInteraction> Add(WCInteraction Interaction)
         {
+            Interaction.InteractionID = _context.WCInteractions.Max(WCC => WCC.InteractionID) + 1;
             _context.Add(Interaction);
             await _context.SaveChangesAsync();
             return Interaction;
@@ -24,9 +25,17 @@ namespace NewContosoUniversity.Services
 
         public async Task<WCFaceToFaceMeeting> Add(WCFaceToFaceMeeting F2FaceMeeting)
         {
+            F2FaceMeeting.FaceToFaceMeetingID = _context.WCFaceToFaceMeeting.Max(WCC => WCC.FaceToFaceMeetingID) + 1;
             _context.Add(F2FaceMeeting);
             await _context.SaveChangesAsync();
             return F2FaceMeeting;
+        }
+
+        public async Task<WCInterestedCourses> Add(WCInterestedCourses InterestedCourse)
+        {
+            _context.Add(InterestedCourse);
+            await _context.SaveChangesAsync();
+            return InterestedCourse;
         }
 
         public async Task<IEnumerable<WCInteraction>> GetAll()
@@ -47,6 +56,26 @@ namespace NewContosoUniversity.Services
             return Interact;
         }
 
+        public async Task<IEnumerable<WCInterestedCourses>> GetLastInterestedCourses(int CustomerID)
+        {
+
+            var Interactions = from WCInt in _context.WCInteractions.Include(WC => WC.InterestedCourses)
+                               .Where(WC => WC.CustomerID == CustomerID)
+                               .OrderByDescending(WC => WC.InteractDateTime)
+                               select WCInt;
+            
+
+            WCInteraction Interact;
+            IEnumerable<WCInterestedCourses> InterestedCourses=null;
+
+            if (Interactions!=null && Interactions.Count()> 0)
+            {
+                Interact = await Interactions.FirstOrDefaultAsync();
+                InterestedCourses = Interact.InterestedCourses;
+            }
+            return InterestedCourses;
+
+        }
         public async Task<WCInteraction> FindLatestInteraction(int CustomerID)
         {
 

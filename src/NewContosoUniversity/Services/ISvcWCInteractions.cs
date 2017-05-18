@@ -9,8 +9,13 @@ namespace NewContosoUniversity.Services
     {
         Task<WCInteraction> Add(WCInteraction Interaction);
         Task<WCFaceToFaceMeeting> Add(WCFaceToFaceMeeting F2FMeeting);
+        Task<WCInterestedCourses> Add(WCInterestedCourses InterestedCourse);
+
         Task<IEnumerable<WCInteraction>> GetAll();
         Task<WCInteraction> GetInteractionDetails(int interactionID);
+
+        Task<IEnumerable<WCInterestedCourses>> GetLastInterestedCourses(int CustomerID);
+        
         Task<WCInteraction> FindLatestInteraction(int CustomerID);
         Task<IEnumerable<WCInteraction>> FindInteractionsByCustomerID(int CustomerID);
         

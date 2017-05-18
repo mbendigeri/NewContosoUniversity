@@ -30,6 +30,9 @@ namespace NewContosoUniversity.Data
         public DbSet<WCStaffDetails> WCStaffDetails { get; set; }
 
         public DbSet<WCInteraction> WCInteractions { get; set; }
+
+        public DbSet<WCInteractionType> WCInteractionType { get; set; }
+
         public DbSet<WCInterestedCourses> WCInterestedCourses { get; set; }
         
         public DbSet<WCHolidayCalendar> WCHolidayCalendar { get; set; }

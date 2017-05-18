@@ -8,6 +8,8 @@ using NewContosoUniversity.Entity.Enums;
 using NewContosoUniversity.Entity.Interfaces;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using Newtonsoft.Json;
 
 namespace NewContosoUniversity.Controllers
 {
@@ -18,6 +20,7 @@ namespace NewContosoUniversity.Controllers
         private ISvcWCCustomerDetails _customerdetails;
         private ISvcWCInteractions _interactions;
         private ISvcWCMasterData _masterData;
+        
 
         public CustomerSupportController(ISvcWCCustomerDetails CustomerDetails, ISvcWCInteractions Interactions, ISvcWCMasterData MasterData)
         {
@@ -155,6 +158,7 @@ namespace NewContosoUniversity.Controllers
         [HttpGet]
         public async Task<IActionResult> NewCustomerInteraction(int CustomerID)
         {
+            
             var model = new ViewModelNewCustomerInteraction(CustomerID);
             WCCustomerDetails Cust = await _customerdetails.GetCustomerDetails(CustomerID);
             if (Cust != null)
@@ -164,12 +168,49 @@ namespace NewContosoUniversity.Controllers
             IEnumerable<WCCommunicationChannelType> WCC = await _masterData.GetAllCommunicationTypes();
             if (WCC != null)
             {
-                model.AvailableCommunicationChannels = WCC;
+               
+                List<SelectListItem> ListCommunicationChannelType = new List<SelectListItem>();
+                foreach (WCCommunicationChannelType WC in WCC)
+                {
+                    SelectListItem CommunicationChannelType = new SelectListItem();
+
+                    CommunicationChannelType.Text = WC.CommunicationChannelTypeDesc;
+                    CommunicationChannelType.Value = WC.CommunicationChannelTypeID.ToString();
+                    ListCommunicationChannelType.Add(CommunicationChannelType);
+                }
+                model.AvailableCommunicationChannels = ListCommunicationChannelType;
             }
+
+            IEnumerable<WCInteractionType> WCCInteractionTypes = await _masterData.GetAllInteractionTypes();
+            if (WCCInteractionTypes != null)
+            {
+
+                List<SelectListItem> ListInteractionType = new List<SelectListItem>();
+                foreach (WCInteractionType WC in WCCInteractionTypes)
+                {
+                    SelectListItem InteractionType = new SelectListItem();
+
+                    InteractionType.Text = WC.InteractionTypeDesc;
+                    InteractionType.Value = WC.InteractionTypeID.ToString();
+                    ListInteractionType.Add(InteractionType);
+                }
+                model.AvailableInteractionTypes = ListInteractionType;
+            }
+            
+            
+
+            IEnumerable<WCInterestedCourses> InterestedCourses = await _interactions.GetLastInterestedCourses(CustomerID);
+            if (WCC != null)
+            {
+                model.InterestedCourses = InterestedCourses;
+            }
+ 
             IEnumerable<WCCourseMaster> CourseMasterCollection = await _masterData.GetAllCourses();
             if (CourseMasterCollection != null && CourseMasterCollection.Count()>0)
             {
                 List<CourseSelection> LstAvailableCourses = new List<CourseSelection>();
+                List<SelectListItem> SelectAvailableCourses = new List<SelectListItem>();
+
                 foreach (WCCourseMaster item in CourseMasterCollection)
                 {
                     CourseSelection NewCourse = new CourseSelection();
@@ -182,20 +223,33 @@ namespace NewContosoUniversity.Controllers
                     NewCourse.CourseType = item.CourseType;
                     NewCourse.CourseTypeID = item.CourseTypeID;
                     NewCourse.Duration = item.Duration;
-                    NewCourse.Selected = false;
+                    if (InterestedCourses!=null && InterestedCourses.Count()>0)
+                    {
+                        if (InterestedCourses.Where(WC => WC.CourseID == NewCourse.CourseID) != null)
+                            NewCourse.Selected = true;
+                        else
+                            NewCourse.Selected = false;
+                    }
                     LstAvailableCourses.Add(NewCourse);
 
+                    SelectListItem SelectAvailableCourse = new SelectListItem();
+
+                    SelectAvailableCourse.Text = item.CourseTitle;
+                    SelectAvailableCourse.Value = item.CourseID.ToString();
+                    SelectAvailableCourses.Add(SelectAvailableCourse);
+
                 }
+                model.SelectAvailableCourses = SelectAvailableCourses;
                 model.AvailableCourses = LstAvailableCourses;
 
-                int total = LstAvailableCourses.Count();
+               /* int total = LstAvailableCourses.Count();
                 if (total > 4)
                 {
                     model.TotalRows = LstAvailableCourses.Count();
                 }
                 else {
                     model.TotalRows = 1;
-                }
+                }*/
             }
 
             WCContactDetails Contact = Cust.ContactDetails.FirstOrDefault(WC => (WC.RelationShip == "Self"));
@@ -228,33 +282,71 @@ namespace NewContosoUniversity.Controllers
         #region Interaction Page submission
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> NewCustomerInteraction(int CustomerID, ViewModelNewCustomerInteraction model)
+        public async Task<IActionResult> NewCustomerInteraction(ViewModelNewCustomerInteraction model)
         {
             if (ModelState.IsValid)
             {
-                WCContactDetails NewContact = model.Contact;
-                NewContact = await _customerdetails.Add(NewContact);
+               // WCContactDetails NewContact = model.Contact;
+               // NewContact = await _customerdetails.Add(NewContact);
 
-                WCFaceToFaceMeeting NewF2FMeeting = model.F2FMeeting;
-                NewF2FMeeting = await _interactions.Add(NewF2FMeeting);
+                
 
                 WCInteraction NewInteraction = new WCInteraction();
-                NewInteraction.CustomerID = CustomerID;
+                NewInteraction.CustomerID = model.Customer.CustomerID;
                 NewInteraction.CallBackStartDate = model.CallBackStartDate;
                 NewInteraction.CallBackStartTime = model.CallBackStartTime;
                 NewInteraction.CallBackEndDate = model.CallBackEndDate;
                 NewInteraction.CallBackEndTime = model.CallBackEndTime;
                 NewInteraction.CommunicationChannelTypeID = model.CommunicationChannelTypeID;
-                NewInteraction.ContactID = NewContact.ContactID;
+                NewInteraction.InteractiontypeID = model.InteractiontypeID;
+                NewInteraction.ContactID = model.Contact.ContactID;
                 NewInteraction.Discussion = model.Discussion;
-                NewInteraction.FaceToFaceMeetingID = NewF2FMeeting.FaceToFaceMeetingID;
+                //NewInteraction.FaceToFaceMeetingID = NewF2FMeeting.FaceToFaceMeetingID;
                 NewInteraction.InteractDateTime = System.DateTime.Now;
-                await _interactions.Add(NewInteraction);
+                NewInteraction= await _interactions.Add(NewInteraction);
+
+                //WCInterestedCourses WCInterestedCourses=
+                
+              
+
+                WCFaceToFaceMeeting NewF2FMeeting = model.F2FMeeting;
+                NewF2FMeeting.AllotedTimeInMinutes=30;
+                NewF2FMeeting.CourseID = model.F2FMeeting.CourseID;
+                NewF2FMeeting.StaffID = model.F2FMeeting.StaffID;
+                NewF2FMeeting.InteractionID = NewInteraction.InteractionID;
+                NewF2FMeeting = await _interactions.Add(NewF2FMeeting);
+
+                foreach (CourseSelection item in model.AvailableCourses)
+                {
+                    if (item.Selected)
+                    {
+                        WCInterestedCourses interestedCourse = new WCInterestedCourses();
+                        interestedCourse.CourseID = item.CourseID;
+                        interestedCourse.InteractionID = NewInteraction.InteractionID;
+                        interestedCourse= await _interactions.Add(interestedCourse);
+                        
+                    }
+                }
 
             }
             return View(model);
 
         }
+
+        [HttpGet]
+        public async Task<JsonResult> GetF2FMeetings(int staffID)
+        {
+            IEnumerable<WCFaceToFaceMeeting> obj = await _masterData.GetAllAvailableF2FMeeting(staffID);
+            JsonResult oj;
+            //JsonSerializerSettings settings = new JsonSerializerSettings();
+            //settings.MaxDepth = 10;
+            //oj = new JsonResult(obj, settings);
+            oj = new JsonResult(obj);
+            return oj;
+
+            //return new JsonResult(await _masterData.GetAllAvailableF2FMeeting(staffID));
+        }
         #endregion
     }
+    
 }

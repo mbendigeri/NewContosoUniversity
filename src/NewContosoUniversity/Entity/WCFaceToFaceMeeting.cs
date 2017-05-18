@@ -12,15 +12,20 @@ namespace NewContosoUniversity.Entity
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int FaceToFaceMeetingID { get; set; }
-        [ForeignKey("WCInteractions")]
-        public int InteractionID { get; set; }
+
+       
         [ForeignKey("WCStaffDetails")]
-        public int staffID { get; set; }
+        public int StaffID { get; set; }
+
         [ForeignKey("WCCourseMaster")]
-        public int courseID
+        public int CourseID
         {
             get; set;
         }
+
+        [ForeignKey("WCInteractions")]
+        public int InteractionID { get; set; }
+
         public DateTime FaceToFaceMeetingDateTime { get; set; }
 
 
@@ -29,11 +34,13 @@ namespace NewContosoUniversity.Entity
 
         public int CompletedTimeInMinutes { get; set; }
 
-        public WCInteraction Interaction { get; set; }
 
         public WCStaffDetails Staff { get; set; }
 
-        public WCCourseMaster Course{ get; set; }
+        public WCCourseMaster Course { get; set; }
+
+        public WCInteraction Interaction { get; set; }
+
 
 
     }

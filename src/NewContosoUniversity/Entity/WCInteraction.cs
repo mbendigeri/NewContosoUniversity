@@ -23,8 +23,8 @@ namespace NewContosoUniversity.Entity
         [ForeignKey("WCContactDetails")]
         public int ContactID { get; set; }
 
-        [ForeignKey("WCFaceToFaceMeeting")]
-        public int? FaceToFaceMeetingID { get; set; }
+       // [ForeignKey("WCFaceToFaceMeeting")]
+       // public int? FaceToFaceMeetingID { get; set; }
 
         [ForeignKey("WCC")]
         public int CommunicationChannelTypeID { get; set; }
@@ -44,13 +44,15 @@ namespace NewContosoUniversity.Entity
 
         public WCContactDetails Contact{ get; set; }
 
+        public WCCustomerDetails Customer { get; set; }
+
         public ICollection<WCInterestedCourses> InterestedCourses { get; set; }
 
         /// <summary>
         /// Ideally we will have only one face to face meeting for an interaction
         /// But I have still designed to have multiple F2F meeting for a single interaction
         /// </summary>
-        public ICollection<WCFaceToFaceMeeting> FaceToFaceMeeting{ get; set; }
+      //  public ICollection<WCFaceToFaceMeeting> FaceToFaceMeeting{ get; set; }
 
 
 

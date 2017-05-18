@@ -193,17 +193,17 @@ namespace NewContosoUniversity.Migrations
 
                     b.Property<DateTime>("ModifiedOn");
 
-                    b.Property<int>("courseID");
+                    b.Property<int>("CourseID");
 
-                    b.Property<int>("staffID");
+                    b.Property<int>("StaffID");
 
                     b.HasKey("FaceToFaceMeetingID");
 
                     b.HasIndex("InteractionID");
 
-                    b.HasIndex("courseID");
+                    b.HasIndex("CourseID");
 
-                    b.HasIndex("staffID");
+                    b.HasIndex("StaffID");
 
                     b.ToTable("WCFaceToFaceMeeting");
                 });
@@ -415,12 +415,12 @@ namespace NewContosoUniversity.Migrations
 
                     b.HasOne("NewContosoUniversity.Entity.WCCourseMaster", "Course")
                         .WithMany()
-                        .HasForeignKey("courseID")
+                        .HasForeignKey("CourseID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("NewContosoUniversity.Entity.WCStaffDetails", "Staff")
                         .WithMany()
-                        .HasForeignKey("staffID")
+                        .HasForeignKey("StaffID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

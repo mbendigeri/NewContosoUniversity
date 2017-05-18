@@ -5,12 +5,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Microsoft.AspNetCore.Mvc;
 
 namespace NewContosoUniversity.Services
 {
     public class SvcWCMasterData : ISvcWCMasterData
     {
         private NewContosoUniversityDBContext _context;
+
+        
+
         public SvcWCMasterData(NewContosoUniversityDBContext context)
         {
             _context = context;
@@ -54,7 +58,11 @@ namespace NewContosoUniversity.Services
         {
             return await _context.WCCommunicationChannelType.ToListAsync();
         }
-
+        public async Task<IEnumerable<WCInteractionType>> GetAllInteractionTypes()
+        {
+            return await _context.WCInteractionType.ToListAsync();
+        }
+        
         public async Task<IEnumerable<WCCourseMaster>> GetAllCourses()
         {
             return await _context.WCCourseMaster.ToListAsync();
@@ -102,6 +110,30 @@ namespace NewContosoUniversity.Services
             */
             //return await _context.WCStaffDetails.ToListAsync();
             return await Staff.ToListAsync();
+        }
+
+        //public async Task<IEnumerable<WCFaceToFaceMeeting>> GetAllAvailableF2FMeeting(int staffID)
+        public async Task<IEnumerable<WCFaceToFaceMeeting>> GetAllAvailableF2FMeeting(int staffID)
+        {
+            //var Staff = _context.WCStaffDetails.Include(RM => RM.Roles);
+
+            /* var F2FMeeting = from WCS in _context.WCFaceToFaceMeeting
+                         .Where(ST => ST.staffID==staffID && ST.FaceToFaceMeetingDateTime>DateTime.Now)
+                         select WCS;*/
+
+            var F2FMeeting = from WCS in _context.WCFaceToFaceMeeting
+                        .Where(ST => ST.StaffID == staffID && ST.FaceToFaceMeetingDateTime > DateTime.Now)
+                        .Include(F2F=>F2F.Interaction)
+                        .ThenInclude(Int =>Int.Customer)
+                        .Include(F2F => F2F.Course)
+                        .Include(F2F => F2F.Staff)
+                             select WCS; 
+
+            return await F2FMeeting.ToListAsync();
+
+            //        { Data = Staff.ToList(), JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
+            //return await Staff.ToListAsync();
         }
     }
 }

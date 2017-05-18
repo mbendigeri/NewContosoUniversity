@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace NewContosoUniversity.Models.CustomerSupport
 {
-    public class CourseSelection:WCCourseMaster
+    public class CourseSelection : WCCourseMaster
     {
         public bool Selected { get; set; }
 
     }
-    
+
     public class ViewModelNewCustomerInteraction
     {
-       
+
         /// <summary>
         /// Master data
         /// </summary>
@@ -25,34 +25,36 @@ namespace NewContosoUniversity.Models.CustomerSupport
         private IEnumerable<WCInterestedCourses> interestedcourses;
         private IEnumerable<WCInteraction> interactions;
         //private IEnumerable<WCCommunicationChannelType> communicationchannels;
-        private IEnumerable<WCCommunicationChannelType> availablecommunicationchannels;
+        // private IEnumerable<WCCommunicationChannelType> availablecommunicationchannels;
+        private List<SelectListItem> availablecommunicationchannels;
         private List<SelectListItem> availabletutors;
-
+        private List<SelectListItem> availableinteractiontypes;
+        private List<SelectListItem> selectavailablecourses;
         /// <summary>
         /// Customer details
         /// </summary>
         private WCCustomerDetails customer;
         private WCContactDetails contact;
         private WCFaceToFaceMeeting f2fMeeting;
-        
+
         private string _discussion;
         private int _interactiontypeid;
-        private DateTime _callbackstartdate;
-        private DateTime _callbackstarttime;
-        private DateTime _callbackEnddate;
-        private DateTime _callbackEndtime;
-        
+        private DateTime? _callbackstartdate;
+        private DateTime? _callbackstarttime;
+        private DateTime? _callbackEnddate;
+        private DateTime? _callbackEndtime;
+
         private int _communicationchannel;
         private int _totalRows;
         private string selectedstaffid;
 
         public ViewModelNewCustomerInteraction(int customerID)
         {
-           /*
-           PopulateCustomer(customerID);
-           PopulateAvailableCourses();
-           PopulateCommunicationChannels();
-           */
+            /*
+            PopulateCustomer(customerID);
+            PopulateAvailableCourses();
+            PopulateCommunicationChannels();
+            */
 
         }
         public ViewModelNewCustomerInteraction()
@@ -70,24 +72,33 @@ namespace NewContosoUniversity.Models.CustomerSupport
         //public IEnumerable<WCCourseMaster> AvailableCourses
         public List<CourseSelection> AvailableCourses
         {
-            
+
             get { return availablecourses; }
             set { availablecourses = value; }
         }
-        
+        public List<SelectListItem> SelectAvailableCourses
+        {
+
+            get { return selectavailablecourses; }
+            set { selectavailablecourses = value; }
+        }
         public int TotalRows
         {
             get { return _totalRows; }
             set { _totalRows = value; }
         }
-        public IEnumerable<WCCommunicationChannelType> AvailableCommunicationChannels
+        public List<SelectListItem> AvailableCommunicationChannels
         {
             get { return availablecommunicationchannels; }
             set { availablecommunicationchannels = value; }
         }
-        //public IEnumerable<WCStaffDetails> AvailableTutors
+        public List<SelectListItem> AvailableInteractionTypes
+        {
+            get { return availableinteractiontypes; }
+            set { availableinteractiontypes = value; }
+        }
 
-        
+
         public List<SelectListItem> AvailableTutors
         {
             get { return availabletutors; }
@@ -106,9 +117,13 @@ namespace NewContosoUniversity.Models.CustomerSupport
         public WCFaceToFaceMeeting F2FMeeting
         {
             get { return f2fMeeting; }
-            set {  f2fMeeting= value; }
+            set { f2fMeeting = value; }
         }
-
+        //public WCInterestedCourses InterestedCourse
+        //{
+        //    //get { return f2fMeeting; }
+        //    //set { f2fMeeting = value; }
+        //}
 
         public IEnumerable<WCInterestedCourses> InterestedCourses
         {
@@ -161,7 +176,7 @@ namespace NewContosoUniversity.Models.CustomerSupport
         [DataType(DataType.Text)]
         [Required(ErrorMessage = "Please select an Start Date for Call back")]
         [Display(Name = "Call Start Date ")]
-        public DateTime CallBackStartDate
+        public DateTime? CallBackStartDate
         {
             get
             {
@@ -176,7 +191,7 @@ namespace NewContosoUniversity.Models.CustomerSupport
         [DataType(DataType.Text)]
         [Required(ErrorMessage = "Please select an Start time for Call back")]
         [Display(Name = "Call Start time")]
-        public DateTime CallBackStartTime
+        public DateTime? CallBackStartTime
         {
             get
             {
@@ -190,7 +205,7 @@ namespace NewContosoUniversity.Models.CustomerSupport
         [DataType(DataType.Text)]
         [Required(ErrorMessage = "Please select an End Date for Call back")]
         [Display(Name = "Call Start Date ")]
-        public DateTime CallBackEndDate
+        public DateTime? CallBackEndDate
         {
             get
             {
@@ -198,13 +213,13 @@ namespace NewContosoUniversity.Models.CustomerSupport
             }
             set
             {
-                _callbackstartdate = value;
+                _callbackEnddate = value;
             }
         }
         [DataType(DataType.Text)]
         [Required(ErrorMessage = "Please select an End time for Call back")]
         [Display(Name = "Call Start time")]
-        public DateTime CallBackEndTime
+        public DateTime? CallBackEndTime
         {
             get
             {
@@ -215,7 +230,7 @@ namespace NewContosoUniversity.Models.CustomerSupport
                 _callbackEndtime = value;
             }
         }
-        
+
         /*
         private void PopulateCustomer(int customerID)
         {

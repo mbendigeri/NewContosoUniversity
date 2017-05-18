@@ -1,0 +1,50 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!--- Drop down Calendar code for CallBack starts here-->
+<div class="row">
+
+    <div class='col-md-3'>
+        <div class="form-group">
+            <label style="font-size:medium">Call Back Start Date Time</label>
+            <div class='input-group date' id='datetimepickerCallBackStartDate'>
+                <input type='text' asp-for="CallBackStartDate" class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class='col-md-3'>
+        <div class="form-group">
+            <label style="font-size:medium">Call Back End Date Time</label>
+            <div class='input-group date' id='datetimepickerCallBackEndDate'>
+                <input type='text' asp-for="CallBackEndDate" class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+                    $(function () {
+                        $('#datetimepickerCallBackStartDate').datetimepicker();
+
+                       /* $('#datetimepickerCallBackEndDate').datetimepicker({
+                            useCurrent: true //Important! See issue #1075
+                        });*/
+                        /*
+                        $("#datetimepickerCallBackStartDate").on("dp.change", function (e) {
+                            $('#datetimepickerCallBackEndDate').data("DateTimePicker").minDate(e.date);
+                        });
+                        $("#datetimepickerCallBackEndDate").on("dp.change", function (e) {
+                            $('#datetimepickerCallBackStartDate').data("DateTimePicker").maxDate(e.date);
+                        });*/
+                    });
+</script>
+
+<!--Drop down Calendar Calendar for CallBack ends here-->
